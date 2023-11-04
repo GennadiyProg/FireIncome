@@ -20,6 +20,7 @@ public class Product {
 	@ManyToOne
 	private Category category;
 	private MeasureUnit measureUnit;
+	private boolean selling;
 
 	public Product(ProductDto dto) {
 		this.name = dto.getName();

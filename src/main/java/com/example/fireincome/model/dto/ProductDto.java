@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 public class ProductDto {
-	private long id;
+	private String id;
 	private String name;
-	private long categoryId;
+	private String categoryId;
 	private MeasureUnit measureUnit;
 }

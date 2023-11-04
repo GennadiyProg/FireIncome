@@ -1,8 +1,6 @@
 package com.example.fireincome.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,12 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Category {
 	@Id
-	private long id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private String id;
 	private String name;
 	@ManyToOne
 	private Organization organization;
 
-	public Category(long id) {
+	public Category(String id) {
 		this.id = id;
 	}
 }

@@ -1,8 +1,6 @@
 package com.example.fireincome.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -11,7 +9,8 @@ import java.util.List;
 @Data
 public class Branch {
 	@Id
-	private long id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private String id;
 	private String city;
 	private String street;
 	private String house;

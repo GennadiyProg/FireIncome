@@ -1,8 +1,6 @@
 package com.example.fireincome.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -10,9 +8,14 @@ import lombok.Data;
 @Data
 public class User {
 	@Id
-	private long id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private String id;
 	private String surname;
 	private String firstName;
 	private String lastName;
+	private String password;
+	private String passport;
+	private boolean active;
+	@Enumerated(value = EnumType.STRING)
 	private Role role;
 }
