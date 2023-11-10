@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.example.fireincome.model.Role.CHIEF;
 
 
@@ -33,5 +35,10 @@ public class AdminServiceImpl implements AdminService {
             log.error(e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public List<Organization> allOrgs() {
+        return organizationRepos.findAll();
     }
 }
