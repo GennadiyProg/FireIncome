@@ -1,9 +1,9 @@
 package com.example.fireincome.repos;
 
-import com.example.fireincome.model.User;
+import com.example.fireincome.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepos extends JpaRepository<User, String> {
+public interface CategoryRepo extends JpaRepository<Category, String> {
 }

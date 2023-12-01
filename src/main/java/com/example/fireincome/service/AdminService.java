@@ -5,7 +5,7 @@ import com.example.fireincome.model.Organization;
 import java.util.List;
 
 public interface AdminService {
-    boolean createOrg(Organization organization);
+    String createOrg(Organization organization);
 
     List<Organization> allOrgs();
 }

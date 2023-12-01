@@ -1,44 +1,49 @@
 package com.example.fireincome.service.impl;
 
 import com.example.fireincome.model.Organization;
-import com.example.fireincome.model.Role;
 import com.example.fireincome.model.User;
-import com.example.fireincome.repos.OrganizationRepos;
-import com.example.fireincome.repos.UserRepos;
+import com.example.fireincome.repos.OrganizationRepo;
+import com.example.fireincome.repos.UserRepo;
 import com.example.fireincome.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static com.example.fireincome.model.Role.CHIEF;
+import static com.example.fireincome.util.ModelUtils.generateUsername;
 
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AdminServiceImpl implements AdminService {
-    private final OrganizationRepos organizationRepos;
-    private final UserRepos userRepos;
+    private final OrganizationRepo organizationRepo;
+    private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public boolean createOrg(Organization organization) {
+    public String createOrg(Organization organization) {
         try {
+            String username = generateUsername(organization.getDirector());
+            organization.getDirector().setUsername(username);
             organization.getDirector().setRole(CHIEF);
             organization.getDirector().setActive(true);
-            User director = userRepos.save(organization.getDirector());
+            organization.getDirector().setPassport(passwordEncoder.encode(organization.getDirector().getPassword()));
+            User director = userRepo.save(organization.getDirector());
             organization.setDirector(director);
-            organizationRepos.save(organization);
-            return true;
+            organizationRepo.save(organization);
+            return username;
         } catch (Exception e) {
             log.error(e.getMessage());
-            return false;
+            return "";
         }
     }
 
     @Override
     public List<Organization> allOrgs() {
-        return organizationRepos.findAll();
+        return organizationRepo.findAll();
     }
 }
