@@ -51,4 +51,15 @@ public class UserServiceImpl implements UserService {
             organizationRepo.save(org);
         }
     }
+
+    @Override
+    public Optional<User> findSellerByFioAndPassport(User user) {
+        return userRepo.findBySurnameAndFirstNameAndLastNameAndPassportAndRole(
+                user.getSurname(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPassport(),
+                user.getRole()
+        );
+    }
 }

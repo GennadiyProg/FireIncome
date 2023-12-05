@@ -31,7 +31,7 @@ public class AdminServiceImpl implements AdminService {
             organization.getDirector().setUsername(username);
             organization.getDirector().setRole(CHIEF);
             organization.getDirector().setActive(true);
-            organization.getDirector().setPassport(passwordEncoder.encode(organization.getDirector().getPassword()));
+            organization.getDirector().setPassword(passwordEncoder.encode(organization.getDirector().getPassword()));
             User director = userRepo.save(organization.getDirector());
             organization.setDirector(director);
             organizationRepo.save(organization);

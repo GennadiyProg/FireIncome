@@ -2,8 +2,10 @@ package com.example.fireincome.api;
 
 import com.example.fireincome.model.Branch;
 import com.example.fireincome.model.Organization;
+import com.example.fireincome.model.User;
 import com.example.fireincome.service.BranchService;
 import com.example.fireincome.service.OrganizationService;
+import com.example.fireincome.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class BranchController {
     private final BranchService branchService;
     private final OrganizationService organizationService;
+    private final UserService userService;
 
     @GetMapping("/all")
     public List<Branch> allBranches(Principal principal) {
@@ -32,8 +35,13 @@ public class BranchController {
     }
 
     @GetMapping("/{kpp}")
-    @PreAuthorize("hasAnyRole('CHIEF', 'SUPERVISOR')")
     public Branch getBranch(@PathVariable String kpp) {
         return branchService.getBranch(kpp);
+    }
+
+    @PostMapping("/{kpp}/sellers/attach")
+    public String attachSeller(@RequestBody User seller, @PathVariable String kpp) {
+        Branch branch = branchService.getBranch(kpp);
+        Optional<User> foundedSeller = userService.findSellerByFioAndPassport(seller);
     }
 }
