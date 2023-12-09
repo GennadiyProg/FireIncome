@@ -41,7 +41,22 @@ public class BranchController {
 
     @PostMapping("/{kpp}/sellers/attach")
     public String attachSeller(@RequestBody User seller, @PathVariable String kpp) {
-        Branch branch = branchService.getBranch(kpp);
         Optional<User> foundedSeller = userService.findSellerByFioAndPassport(seller);
+        if (foundedSeller.isEmpty()) {
+            User newSeller = userService.createSeller(seller);
+            branchService.attachSeller(kpp, newSeller);
+            return newSeller.getUsername();
+        } else {
+            foundedSeller.get().setPassword(seller.getPassword());
+            User existedSeller = userService.createSeller(foundedSeller.get());
+            branchService.attachSeller(kpp, existedSeller);
+            return existedSeller.getUsername();
+        }
+    }
+
+    @PostMapping("/{kpp}/sellers/detach")
+    public void detachSeller(@RequestAttribute String username, @PathVariable String kpp) {
+        User seller = userService.findByUsername(username);
+        branchService.detachSeller(kpp, seller);
     }
 }

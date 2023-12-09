@@ -13,4 +13,8 @@ public interface UserService {
     void deleteSupervisor(String supervisorUsername, String directorUsername);
 
     Optional<User> findSellerByFioAndPassport(User user);
+
+    User createSeller(User user);
+
+    User findByUsername(String username);
 }

@@ -1,6 +1,7 @@
 package com.example.fireincome.service.impl;
 
 import com.example.fireincome.model.Organization;
+import com.example.fireincome.model.Role;
 import com.example.fireincome.model.User;
 import com.example.fireincome.repos.OrganizationRepo;
 import com.example.fireincome.repos.UserRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.Optional;
 
+import static com.example.fireincome.model.Role.SELLER;
 import static com.example.fireincome.model.Role.SUPERVISOR;
 
 @Service
@@ -29,11 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String createSupervisor(User user, String directorUsername) {
-        user.setUsername(ModelUtils.generateUsername(user));
-        user.setRole(SUPERVISOR);
-        user.setActive(true);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user = userRepo.save(user);
+        user = createUser(user, SUPERVISOR);
         Organization org = organizationRepo.findByDirector_Username(directorUsername).orElseGet(Organization::new);
         org.getSupervisors().add(user);
         organizationRepo.save(org);
@@ -62,4 +60,24 @@ public class UserServiceImpl implements UserService {
                 user.getRole()
         );
     }
+
+    @Override
+    public User createSeller(User user) {
+        return createUser(user, SELLER);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepo.findByUsername(username).orElseGet(User::new);
+    }
+
+    private User createUser(User user, Role role) {
+        user.setUsername(ModelUtils.generateUsername(user));
+        user.setRole(role);
+        user.setActive(true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepo.save(user);
+    }
+
+
 }
