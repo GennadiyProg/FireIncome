@@ -23,4 +23,9 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> findAllByOrganization(Organization organization) {
 		return categoryRepo.findAllByOrganization(organization);
 	}
+
+	@Override
+	public Category findById(String id) {
+		return categoryRepo.findById(id).orElseGet(Category::new);
+	}
 }

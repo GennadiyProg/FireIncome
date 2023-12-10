@@ -1,5 +1,6 @@
 package com.example.fireincome.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,5 +17,6 @@ public class Sale {
     @ManyToOne
     private User seller;
     private int amount;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "uuuu-MM-dd HH:mm:ss")
     private LocalDateTime time;
 }

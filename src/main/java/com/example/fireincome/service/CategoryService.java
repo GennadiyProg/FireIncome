@@ -9,4 +9,6 @@ public interface CategoryService {
 	Category createCategory(Category category);
 
 	List<Category> findAllByOrganization(Organization organization);
+
+	Category findById(String id);
 }

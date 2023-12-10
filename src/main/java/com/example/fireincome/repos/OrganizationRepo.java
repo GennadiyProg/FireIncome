@@ -1,5 +1,6 @@
 package com.example.fireincome.repos;
 
+import com.example.fireincome.model.Branch;
 import com.example.fireincome.model.Organization;
 import com.example.fireincome.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface OrganizationRepo extends JpaRepository<Organization, String> {
     Optional<Organization> findByDirector_Username(String username);
 
     Optional<Organization> findBySupervisorsContaining(User supervisor);
+
+    Optional<Organization> findByBranchesContaining(Branch branch);
 }

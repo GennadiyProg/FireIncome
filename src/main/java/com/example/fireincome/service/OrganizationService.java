@@ -8,4 +8,6 @@ public interface OrganizationService {
     Optional<Organization> loadByDirectoryUsername(String director);
 
     Optional<Organization> loadBySupervisor(String supervisorUsername);
+
+    Optional<Organization> loadBySeller(String sellerUsername);
 }
