@@ -1,6 +1,5 @@
 package com.example.fireincome.model;
 
-import com.example.fireincome.model.dto.ProductDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,10 +20,4 @@ public class Product {
 	private Category category;
 	private MeasureUnit measureUnit;
 	private boolean selling;
-
-	public Product(ProductDto dto) {
-		this.name = dto.getName();
-		this.category = new Category(dto.getCategoryId());
-		this.measureUnit = dto.getMeasureUnit();
-	}
 }

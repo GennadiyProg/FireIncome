@@ -3,19 +3,14 @@ package com.example.fireincome.api;
 import com.example.fireincome.model.Branch;
 import com.example.fireincome.model.Organization;
 import com.example.fireincome.model.User;
-import com.example.fireincome.model.view.AdminOrgPrewView;
-import com.example.fireincome.service.AdminService;
-import com.example.fireincome.service.BranchService;
-import com.example.fireincome.service.OrganizationService;
-import com.example.fireincome.service.UserService;
+import com.example.fireincome.model.view.Statistic;
+import com.example.fireincome.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +20,7 @@ public class ChiefController {
     private final OrganizationService organizationService;
     private final UserService userService;
     private final BranchService branchService;
+    private final StatisticService statisticService;
 
     @GetMapping("/supervisors")
     public List<User> allSupervisors(Principal principal) {
@@ -56,5 +52,35 @@ public class ChiefController {
     @DeleteMapping("/branches/{kpp}")
     public void deleteBranch(@PathVariable String kpp, Principal principal) {
         branchService.deleteBranch(kpp, principal.getName());
+    }
+
+    @GetMapping("/statistic/category")
+    public List<Statistic> getStatisticByCategory(Principal principal) {
+        Optional<Organization> org = organizationService.loadByDirectoryUsername(principal.getName());
+        if (org.isPresent()) {
+            return statisticService.loadStatisticByCategory(org.get());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @GetMapping("/statistic/branch")
+    public List<Statistic> getStatisticByBranch(Principal principal) {
+        Optional<Organization> org = organizationService.loadByDirectoryUsername(principal.getName());
+        if (org.isPresent()) {
+            return statisticService.loadStatisticByBranch(org.get());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @GetMapping("/statistic/time")
+    public List<Statistic> getStatisticByMonth(Principal principal) {
+        Optional<Organization> org = organizationService.loadByDirectoryUsername(principal.getName());
+        if (org.isPresent()) {
+            return statisticService.loadStatisticByMonth(org.get());
+        } else {
+            return new ArrayList<>();
+        }
     }
 }
