@@ -11,7 +11,11 @@ public class ModelUtils {
         Translator translator = new Translator(Schemas.ICAO_DOC_9303);
         Random random = new Random();
         String username = translator.translate(user.getSurname() + "_" + user.getFirstName().charAt(0));
-        username = username.toLowerCase() + "_" + random.nextInt(9999);
+        int randomNumber = random.nextInt(9999);
+        while (randomNumber < 1000) {
+            randomNumber *= 10;
+        }
+        username = username.toLowerCase() + "_" + randomNumber;
         return username;
     }
 }

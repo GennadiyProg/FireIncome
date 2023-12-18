@@ -14,6 +14,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.fireincome.model.Role.SELLER;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/branch")
@@ -41,6 +43,7 @@ public class BranchController {
 
     @PostMapping("/{kpp}/sellers/attach")
     public String attachSeller(@RequestBody User seller, @PathVariable String kpp) {
+        seller.setRole(SELLER);
         Optional<User> foundedSeller = userService.findSellerByFioAndPassport(seller);
         if (foundedSeller.isEmpty()) {
             User newSeller = userService.createSeller(seller);
@@ -54,8 +57,8 @@ public class BranchController {
         }
     }
 
-    @PostMapping("/{kpp}/sellers/detach")
-    public void detachSeller(@RequestAttribute String username, @PathVariable String kpp) {
+    @PostMapping("/{kpp}/sellers/{username}/detach")
+    public void detachSeller(@PathVariable String username, @PathVariable String kpp) {
         User seller = userService.findByUsername(username);
         branchService.detachSeller(kpp, seller);
     }
