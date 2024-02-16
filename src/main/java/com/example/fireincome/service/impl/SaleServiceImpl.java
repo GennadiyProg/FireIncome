@@ -1,6 +1,7 @@
 package com.example.fireincome.service.impl;
 
 import com.example.fireincome.model.*;
+import com.example.fireincome.model.view.ProcessingResult;
 import com.example.fireincome.repos.SaleRepo;
 import com.example.fireincome.service.CategoryService;
 import com.example.fireincome.service.SaleService;
@@ -48,5 +49,9 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public int countSalesInPeriod(LocalDateTime start, LocalDateTime end) {
         return saleRepo.countByTimeIsBetween(start, end);
+    }
+
+    public ProcessingResult process(List<Sale> sales) {
+        return
     }
 }

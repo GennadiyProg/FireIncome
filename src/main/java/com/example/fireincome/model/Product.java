@@ -19,5 +19,6 @@ public class Product {
 	@ManyToOne
 	private Category category;
 	private MeasureUnit measureUnit;
+	private double price;
 	private boolean selling;
 }
