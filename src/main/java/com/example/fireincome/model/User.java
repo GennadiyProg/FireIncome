@@ -19,4 +19,6 @@ public class User {
 	private boolean active;
 	@Enumerated(value = EnumType.STRING)
 	private Role role;
+	@ManyToOne
+	private Organization organization;
 }

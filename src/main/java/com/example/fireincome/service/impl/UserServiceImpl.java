@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.fireincome.model.Role.SELLER;
@@ -69,6 +70,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepo.findByUsername(username).orElseGet(User::new);
+    }
+
+    @Override
+    public List<User> findSellerByFioAndOrganization(String[] fio, Organization organization) {
+        if (fio.length > 2)
+            return userRepo.findBySurnameIgnoreCaseAndFirstNameIgnoreCaseAndLastNameIgnoreCaseAndRoleAndOrganization(fio[0], fio[1], fio[2], SELLER, organization);
+        return userRepo.findBySurnameIgnoreCaseAndFirstNameIgnoreCaseAndRoleAndOrganization(fio[0], fio[1], SELLER, organization);
     }
 
     private User createUser(User user, Role role) {

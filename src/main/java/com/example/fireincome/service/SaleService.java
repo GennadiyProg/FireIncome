@@ -1,11 +1,10 @@
 package com.example.fireincome.service;
 
-import com.example.fireincome.model.Branch;
-import com.example.fireincome.model.Category;
-import com.example.fireincome.model.Organization;
-import com.example.fireincome.model.Sale;
+import com.example.fireincome.model.*;
+import com.example.fireincome.model.view.ProcessingResult;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface SaleService {
     Sale createSale(Sale sale);
@@ -19,4 +18,6 @@ public interface SaleService {
     LocalDateTime loadTimeLastSaleInOrganization(Organization organization);
 
     int countSalesInPeriod(LocalDateTime start, LocalDateTime end);
+
+    ProcessingResult process(List<ClientSale> sales);
 }

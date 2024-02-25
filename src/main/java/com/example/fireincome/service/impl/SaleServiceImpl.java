@@ -1,6 +1,8 @@
 package com.example.fireincome.service.impl;
 
+import com.example.fireincome.logic.SaleProcessor;
 import com.example.fireincome.model.*;
+import com.example.fireincome.model.help.ErrorSale;
 import com.example.fireincome.model.view.ProcessingResult;
 import com.example.fireincome.repos.SaleRepo;
 import com.example.fireincome.service.CategoryService;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class SaleServiceImpl implements SaleService {
     private final SaleRepo saleRepo;
     private final CategoryService categoryService;
+    private final SaleProcessor saleProcessor;
 
     @Override
     public Sale createSale(Sale sale) {
@@ -51,7 +54,30 @@ public class SaleServiceImpl implements SaleService {
         return saleRepo.countByTimeIsBetween(start, end);
     }
 
-    public ProcessingResult process(List<Sale> sales) {
-        return
+    public ProcessingResult process(List<ClientSale> sales, Organization organization) {
+        List<ClientSale> successfulSales = new ArrayList<>();
+        List<ErrorSale> errorSales = new ArrayList<>();
+        for (ClientSale sale: sales) {
+            ProcessingResult result = saleProcessor.processSaleTime(sale);
+            recognizeProcessingResult(result, successfulSales, errorSales);
+            result = saleProcessor.processSaleAmount(sale);
+            recognizeProcessingResult(result, successfulSales, errorSales);
+            result = saleProcessor.processSaleProduct(sale, organization);
+            recognizeProcessingResult(result, successfulSales, errorSales);
+            result = saleProcessor.processSaleSeller(sale, organization);
+            recognizeProcessingResult(result, successfulSales, errorSales);
+            result = saleProcessor.processSalePrice(sale, organization);
+            recognizeProcessingResult(result, successfulSales, errorSales);
+        }
+        //Todo нормальный возврат сделать
+        return null;
+    }
+
+    private void recognizeProcessingResult(ProcessingResult result, List<ClientSale> successfulSales, List<ErrorSale> errorSales) {
+        if (result.getSavedSale() != null) {
+            successfulSales.add(result.getSavedSale());
+        } else {
+            errorSales.add(result.getErrorSale());
+        }
     }
 }
