@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface SaleService {
-    Sale createSale(Sale sale);
 
     int countSalesByCategory(Category category);
 
@@ -19,5 +18,5 @@ public interface SaleService {
 
     int countSalesInPeriod(LocalDateTime start, LocalDateTime end);
 
-    ProcessingResult process(List<ClientSale> sales);
+    ProcessingResult process(List<ClientSale> sales, Organization organization);
 }

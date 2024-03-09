@@ -18,4 +18,6 @@ public class Branch {
 	private String kpp;
 	@OneToMany
 	private List<User> sellers = new ArrayList<>();
+	private String adapterUrl;
+	private boolean active;
 }

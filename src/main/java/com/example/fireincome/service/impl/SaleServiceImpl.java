@@ -25,11 +25,6 @@ public class SaleServiceImpl implements SaleService {
     private final SaleProcessor saleProcessor;
 
     @Override
-    public Sale createSale(Sale sale) {
-        return saleRepo.save(sale);
-    }
-
-    @Override
     public int countSalesByCategory(Category category) {
         return saleRepo.countByProduct_Category(category);
     }
